@@ -1,0 +1,97 @@
+<section data-background-color="#28306a">
+  <h2> Concurrecny Model <br> of Rust Futures</h2>
+  <h4>- Runtime -</h4>
+</section>
+
+<section data-background-color="#ffffff">
+  <img src="./pic/runtime.jpg" alt="">
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>Coroutine</h3>
+  <p>An execution can be suspened and resumed.</p>
+</section>
+
+<section
+  data-background="./pic/go-vs-rust.png"
+  data-background-size="60%"
+  data-background-color="white"
+>
+</section>
+
+<section data-background-color="white">
+  <img src="./pic/discord.png">
+  <a href="https://discord.com/blog/why-discord-is-switching-from-go-to-rust">https://discord.com/blog/why-discord-is-switching-from-go-to-rust</a>
+</section>
+
+<section data-background-color="white">
+  <div class="columns">
+    <div>
+      <img src="./pic/tokio-async-std.jpg" height=600>
+    </div>
+    <div>
+      <br>
+      <br>
+      <h3>Runtime</h3>
+      <ul>
+        <li><a href="https://tokio.rs/">Tokio</a> (2016): popular async ecosystem with HTTP, gRPC, and tracing frameworks </li>
+        <li><a href="https://async.rs/">Async-std</a> (2019): provides asynchronous counterparts to standard library components.</li>
+        <li>Others</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>
+    Scheduler / Executor
+  </h2>
+</section>
+
+<section data-background-color="white">
+  <h3>A naive scheduler</h3>
+  <img src="./pic/run-queue.png" width=800>
+</section>
+
+<section data-background-color="white">
+  <h3>One global MPMC queue</h3>
+  <img src="./pic/run-queue-2.png" width=800>
+</section>
+
+<section data-background-color="white">
+  <h3>Work-stealing Scheduler <br> (SPMC queue per processor)</h3>
+  <img src="./pic/run-queue-3.png" width=800>
+</section>
+
+<section data-background-color="white">
+  <h3>What if queue is full?</h3>
+  <img src="./pic/run-queue-4.png" width=800>
+</section>
+
+<section data-background-color="white">
+  <h3>And more ...</h3>
+  <ul>
+    <li>Better queue implementation</li>
+    <li>Optimizing for message passing patterns: next task slot</li>
+    <li>Throttle the work-stealing by introducing searching state</li>
+    <li>Better stealing mechanism</li>
+    <li>Per-task operation budget</li>
+  </ul>
+  <br>
+  <br>
+  <br>
+  <small>
+    <a href="https://tokio.rs/blog/2019-10-scheduler">* Making the Tokio scheduler 10x faster</a>
+  </small>
+</section>
+
+<section data-background-color="white">
+  <h3>Tokio v.s. Async-std</h3>
+  <ul>
+    <li>Tokio does lead the Rust async ecosystem with plentful features.</li>
+    <li>Async-std is working on building an async version of std library.</li>
+    <li>Async-std bring us another possibility of a fast runtime without complexity.</li>
+    <li>You can even use async-std interface with tokio enabled to use tokio runtime.</li>
+
+  </ul>
+</section>

@@ -1,0 +1,64 @@
+<section data-background-color="#28306a">
+  <h3>Some experience <br> about data analysis with Rust</h3>
+</section>
+
+<section data-background-color="#000000">
+  <h4>Use LiDAR sensors to detect vehicles on the road.</h4>
+  <img src="./pic/kitti.jpg" width=1000>
+</section>
+
+<section data-background-color="white">
+  <h3>Asynchronous Pipeline</h3>
+  <img src="./pic/wayside-pipeline.png" width=1000>
+</section>
+
+<section data-background-color="white">
+  <img src="./pic/hard.jpg" width=450>
+</section>
+
+<section data-background-color="white">
+  <h3>
+    <a href="https://github.com/jerry73204/par-stream">Par-Stream</a>
+    <p>Enable your Stream with Async I/O <br> easily process in parallel!</p>
+  </h3>
+</section>
+
+<section data-background-color="white">
+  <h3>Ergonomic Stream Style Processing</h3>
+  <pre data-id="code-animation"><code
+    class="rust"
+    data-trim
+    data-line-numbers="|4-10|11-14|17-19|20-22|23-24|27-28|29"
+  ><script type="text/template">
+async fn lidar_receiver(
+    source: PacketSource,
+) -> Result<impl Stream<Item = Result<FrameMessage>> + Send> {
+    let stream = packet_stream(&source)
+        .await?
+        // add offset on system time
+        .map(...)
+        // skip delayed packets
+        .try_filter(...)
+        .try_stateful_map(...)
+        // group packets into chunks of 32 packets
+        .try_chunks(32)
+        // each parallel worker converts a chunk of packets into firings
+        .try_par_map(...)
+        // group firings into frames
+        .try_stateful_map(...)
+        // flatten stream of vecs of frames into stream of frames
+        .map(...)
+        .try_flatten()
+        // convert each frame to output frame message type
+        .try_enumerate()
+        .try_par_map(...)
+        // measure frame rate
+        .try_scan(...)
+        // limit frame count if requested
+        .try_take_while(...)
+        // run until cancelation
+        .take_until(...);
+    Ok(stream)
+}
+  </script></code></pre>
+</section>

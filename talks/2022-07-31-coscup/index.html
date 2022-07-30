@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>2022-07-31 Coscup</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./reveal.js/dist/reset.css">
+    <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="./reveal.js/dist/theme/black.css" id="theme">
+    <link rel="stylesheet" href="./template/custom.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="template/night-owl.min.css">
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <div class="slides">
+
+        <section data-external="./sections/00-intro.html"></section>
+        <section data-external="./sections/01-concurrecny.html"></section>
+        <section data-external="./sections/02-async.html"></section>
+        <section data-external="./sections/03-runtime.html"></section>
+        <section data-external="./sections/04-bonus.html"></section>
+        <section>
+          <h2>Thanks for your listening!</h2>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/zoom/zoom.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="plugins/menu/menu.js"></script>
+
+    <script>
+      Reveal.initialize({
+        history: true,
+        progress: true,
+        slideNumber: true,
+        width: 1280,
+        height: 720,
+        plugins: [
+          RevealMenu,
+          RevealZoom,
+          RevealMarkdown,
+          RevealHighlight
+        ],
+        dependencies: [
+          {
+            src: './plugins/external/external.js',
+            condition: function() {
+              return !!document.querySelector( '[data-external],[data-external-replace]' );
+            }
+          },
+        ]
+      });
+    </script>
+
+  </body>
+</html>

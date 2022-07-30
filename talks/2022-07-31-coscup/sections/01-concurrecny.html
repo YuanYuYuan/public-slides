@@ -1,0 +1,132 @@
+<section data-background-color="#28306a">
+  <h2>Big Problem</h2>
+  <h2>Zero Cost Abstraction <br> for Asynchronous I/O</h2>
+</section>
+
+<section data-background-color="white">
+  <img src="./pic/what-is.jpg" alt="">
+</section>
+
+<section data-auto-animate data-background-color="white">
+
+  <h3>Async vs Sync</h3>
+  <div class="columns">
+    <div>
+      <pre data-id="code-animation"><code
+        class="rust"
+        data-trim
+        data-line-numbers
+      ><script type="text/template">
+use tokio::{join, time::{sleep, Duration}};
+async fn long_task(task_name: &str) {
+    sleep(Duration::from_secs(5)).await;
+    println!("Task {} done.", task_name);
+}
+
+#[tokio::main]
+async fn main() {
+    long_task("1").await;
+    long_task("2").await;
+}
+// Task 1 done.
+// Task 2 done.
+// Elapsed time: 10 secs
+      </script></code></pre>
+    </div>
+
+    <div>
+      <pre data-id="code-animation"><code
+        class="rust"
+        data-trim
+        data-line-numbers
+      ><script type="text/template">
+use std::{thread::sleep, time::Duration};
+fn long_task(task_name: &str) {
+    sleep(Duration::from_secs(5));
+    println!("Task {} done.", task_name);
+}
+
+
+fn main() {
+    long_task("1");
+    long_task("2");
+}
+// Task 1 done.
+// Task 2 done.
+// Elapsed time: 10 secs
+      </script></code></pre>
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<section data-auto-animate data-background-color="white">
+  <div class="columns">
+    <div>
+      <pre data-id="code-animation"><code
+        class="rust"
+        data-trim
+        data-line-numbers
+      ><script type="text/template">
+use tokio::{join, time::{sleep, Duration}};
+async fn long_task(task_name: &str) {
+    sleep(Duration::from_secs(5)).await;
+    println!("Task {} done.", task_name);
+}
+
+#[tokio::main]
+async fn main() {
+    join!(long_task("1"), long_task("2"));
+}
+// Task 2 done.
+// Task 1 done.
+// Elapsed time: 5 secs
+      </script></code></pre>
+    </div>
+
+    <div>
+      <br>
+
+      <h2>Concurrency</h2>
+      <p>Our tasks are now executed concurrently!</p>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#ffffff">
+  <div class="columns">
+    <div>
+      <img src="./pic/non-blocking.jpg" height=600>
+    </div>
+    <div>
+      <br>
+      <br>
+      <br>
+      <h2>Asynchronous I/O</h2>
+      <h4>You are NOT blocked by I/O events to be completed.</h4>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>Parallelism</h3>
+  <div class="columns">
+    <div class="fragment">
+      <img src="./pic/multithreaded-programming-theory.jpg" height=500>
+    </div>
+    <div class="fragment">
+      <img src="./pic/multithreaded-programming-practice.jpg" height=500>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>
+    Concurrent programming is HARD,
+    <br> we need to
+    design a well-behavior model for it.
+  </h3>
+</section>

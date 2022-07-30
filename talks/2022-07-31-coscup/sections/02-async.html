@@ -1,0 +1,164 @@
+<section data-background-color="#28306a">
+  <h2> Concurrecny Model <br> of Rust Futures</h2>
+  <h4>- Abstraction -</h4>
+</section>
+
+<section data-auto-animate data-background-color="white">
+  <h3>There are two ways to use async in Rust</h3>
+  <pre data-id="code-animation"><code
+    class="rust"
+    data-trim
+    data-line-numbers
+  ><script type="text/template">
+async fn zero() -> u8 { 0 }
+
+fn add_one() -> impl Future<Output = u8> {
+  async { zero().await + 1 }
+}
+  </script></code></pre>
+</section>
+
+<section data-auto-animate data-background-color="white">
+  <h3>There are two ways to use async in Rust</h3>
+  <pre data-id="code-animation"><code
+    class="rust"
+    data-trim
+    data-line-numbers
+  ><script type="text/template">
+async fn zero() -> u8 { 0 }                  // 'async fn' zero() returns a type that
+                                             //  implements Future<Output = u8>
+fn add_one() -> impl Future<Output = u8> {
+  async { zero().await + 1 }
+}
+  </script></code></pre>
+</section>
+
+<section data-auto-animate data-background-color="white">
+  <h3>There are two ways to use async in Rust</h3>
+  <pre data-id="code-animation"><code
+    class="rust"
+    data-trim
+    data-line-numbers
+  ><script type="text/template">
+async fn zero() -> u8 { 0 }
+
+fn add_one() -> impl Future<Output = u8> {   // 'async block' results in a type that
+  async { zero().await + 1 }                 // implements Future<Output = u8>
+}                                            // zero().await results in a value of type u8
+  </script></code></pre>
+</section>
+
+<section data-background-color="white">
+  <p>Future represents a value it not ready yet, but eventually it resolves to that value. You just need to keep asking.</p>
+  <pre data-id="code-animation"><code
+    class="rust"
+    data-trim
+    data-line-numbers
+  ><script type="text/template">
+pub trait Future {
+    type Output;
+    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
+}
+
+pub enum Poll<T> {
+    Ready(T),
+    Pending,
+}
+  </script></code></pre>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>Isn't that comes with busy waiting?</h3>
+</section>
+
+<section data-background-color="#ffffff">
+  <img src="./pic/javascript-logo.png" height="400">
+  <h3>Since 1995</h3>
+</section>
+
+<section data-background-color="#ffffff">
+  <p>
+    <a href="https://youtu.be/8aGhZQkoFbQ">What the heck is the event loop anyway? by Philip Roberts</a>
+  </p>
+  <iframe data-src="./vid/javascript-eventloop.webm" width="960" height="600"> </iframe>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>Callback v.s. Promise v.s. Async/Await</h3>
+  <pre data-id="code-animation"><code
+    class="javascript"
+    data-trim
+    data-line-numbers
+  ><script type="text/template">
+// callback
+request('https://www.rust-lang.org/', (response) => {
+    // handle response
+});
+
+// promise
+request('https://www.rust-lang.org/').then((response) => {
+    // handle response
+});
+
+// async & await
+async function f() {
+    let response = await request('https://www.rust-lang.org/');
+    // handle response
+}
+</script></code></pre>
+</section>
+
+<section data-background-color="#ffffff">
+  <div class="columns">
+    <div>
+      <img src="./pic/callback-polling.jpg" height=600>
+    </div>
+    <div>
+      <br>
+      <br>
+      <h2>Why not callback?</h2>
+      <ul>
+        <li>Dataflow is hard to trace.</li>
+        <li>Requires an event loop.</li>
+        <li>Callbacks dynamically allocated on heap.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>Memory Overhead</h3>
+  <img src="./pic/memory-overhead.jpg" alt="">
+</section>
+
+
+<section data-background-color="#ffffff">
+  <h3>Futures Under The Hood Are State Machines</h3>
+  <img src="./pic/future-state-machine.png" height=500>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>Perfect Memory Overhead</h3>
+  <ul>
+    <li>Memory allocation = max value among states</li>
+    <li>Deterministic and allocated once.</li>
+  </ul>
+</section>
+
+<section data-background-color="#ffffff">
+  <h3>However ...</h3>
+  <img src="./pic/total-memory.png" height=500>
+</section>
+
+<section data-background-color="#ffffff">
+  <img src="./pic/segmented-stack.jpg" height=500>
+</section>
+
+
+<section data-background-color="#ffffff">
+  <h2>Zero Cost Abstraction</h2>
+  <ul>
+    <li>Exactly one allocation per future.</li>
+    <li>Abstraction layer for executor/reactor <br> instead of one single event loop.</li>
+  </ul>
+</section>
